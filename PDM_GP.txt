@@ -1,0 +1,45 @@
+//加载一个形状模型，读取并显示出来
+val faceModel = StatismoIO.readStatismoMeshModel(new File("datasets/bfm.h5")).get
+show(faceModel, "faceModel")
+
+
+//该模型是正态分布的，我们可以对它随机取样，并显示出来
+val sampledFace : TriangleMesh = faceModel.sample
+show(sampledFace, "sampledFace")
+
+//来看看它的均值
+val meanFace : TriangleMesh = faceModel.mean
+show(meanFace, "meanFace")
+
+//刚刚加载的模型是个高斯过程
+val faceGP : DiscreteLowRankGaussianProcess[_3D,_3D] = faceModel.gp
+//一个高斯过程是个正态分布，有一个均值
+val meanField : DiscreteVectorField[_3D,_3D] = faceGP.mean
+//这个均值是个变形场，让我们来显示出来
+show(meanField, "meanField")
+
+
+//现在先仅将 meanField 和 meanFace 设置为可见的，看一看向量场是在哪里结束？
+//没错，在meanFace上结束
+val referenceFace : TriangleMesh = faceModel.referenceMesh
+show(referenceFace, "referenceFace")
+
+//看一看从哪里开始？让我们打开参考网格referenceFace
+val referenceFace : TriangleMesh = faceModel.referenceMesh
+show(referenceFace, "referenceFace")
+
+//平均变形场，是从参考模型指向meanFace的变形场
+
+//当我们调用 face.Model.mean ，发生了什么?
+//1.获得了一个平均变形场  2.平均变形场 将 reference mesh 变成  the triangle Mesh ，
+//从而呈现出平均脸 meanFace
+
+
+//当我们从face model 随机取样时，发生什么
+//1.一个随机变形场被取出来 2.这个变形长被用在reference mesh上来获得一个随机的 face mesh
+
+
+
+
+
+
